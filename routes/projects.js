@@ -8,7 +8,7 @@ var projects = () => {
     var key = config.get('teamwork.apikey');
 
     var base64 = new Buffer(key + ":xxx").toString("base64");
-
+    console.log(base64)
     var options = {
         method: 'GET',
         url: 'http://' + company + '.teamwork.com/projects.json',
