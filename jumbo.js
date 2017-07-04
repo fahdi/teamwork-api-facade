@@ -1,30 +1,24 @@
 var request = require('request');
-var company = "YOUR_TEAMWORK_SITE_NAME";
-var key = "YOUR_API_KEY";
+var config = require('./config');
+
+var company = config.get('teamwork.company');
+var key = config.get('teamwork.apikey');
 
 var base64 = new Buffer(key + ":xxx").toString("base64");
 
-var options = {
-    hostname: company + ".teamwork.com",
-    path: "/projects.json",
-    method: "GET",
-    headers: {
-        "Authorization": "BASIC " + base64,
-        "Content-Type": "application/json"
-    }
+var options = { 
+  method: 'GET',
+  url: 'http://'+ company +'.teamwork.com/projects.json',
+  headers: 
+   {    
+    'cache-control': 'no-cache',
+    'content-type': 'application/json',
+    authorization: 'BASIC ' + base64
+   }
 };
 
-var req = request(options, function(res) {
-	console.log("STATUS: " + res.statusCode);
-	console.log("HEADERS: " + JSON.stringify(res.headers));
-	res.setEncoding("utf8");
-	res.on("data", function (chunk) {
-		console.log("BODY: " + chunk);
-	});
-});
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
 
-req.on("error", function(e) {
-	console.log("ERROR: " + e.message);
+  console.log(body);
 });
-
-req.end();

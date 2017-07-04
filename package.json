@@ -3,17 +3,33 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "DEBUG=teamwork-analytics:* node ./bin/www"
+    "dev": "NODE_ENV=development DEBUG=teamwork-analytics:* nodemon ./bin/www",
+    "start": "NODE_ENV=development DEBUG=teamwork-analytics:* node ./bin/www",
+    "lint": "node ./node_modules/eslint/bin/eslint.js .",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
     "convict": "^4.0.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
+    "es6-promisify": "^5.0.0",
     "express": "~4.15.2",
+    "foundation-sites": "^6.4.1",
+    "kue": "^0.11.6",
+    "kue-ui": "^0.1.0",
+    "kue-ui-express": "^1.0.2",
+    "lodash": "^4.17.4",
     "morgan": "~1.8.1",
     "pug": "~2.0.0-beta11",
     "request": "^2.81.0",
+    "request-promise": "^4.2.1",
     "serve-favicon": "~2.4.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.1.1",
+    "nodemon": "^1.11.0"
   }
 }

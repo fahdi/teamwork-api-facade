@@ -32,6 +32,31 @@ var config = convict({
       default: 'users'
     }
   },
+  teamwork: {
+    company: {
+      doc: "Compmany name in the URL",
+      format: String,
+      default: ''
+    },
+    apikey: {
+      doc: "API key for temwork",
+      format: String,
+      default: ''
+    }
+  },
+  twFacade: {
+    apiPath: {
+      doc: "API URL for temwork facade API",
+      format: '*',
+      default: 'http://localhost:8080/'
+    }
+  },
+  redis: {
+    doc: 'The redis connection string.',
+    format: '*',
+    default: 'redis://localhost:6379',
+    env: 'REDIS'
+  },
   username: '',
   password: ''
 });

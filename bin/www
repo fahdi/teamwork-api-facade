@@ -9,7 +9,6 @@ var debug = require('debug')('teamwork-analytics:server');
 var http = require('http');
 var config = require('../config');
 
-
 /**
  * Get port from environment and store in Express.
  */
