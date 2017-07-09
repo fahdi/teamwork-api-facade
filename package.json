@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "body-parser": "~1.17.1",
-    "convict": "^4.0.0",
+    "convict": "^4.0.0",    
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "es6-promisify": "^5.0.0",
@@ -20,6 +20,8 @@
     "kue-ui": "^0.1.0",
     "kue-ui-express": "^1.0.2",
     "lodash": "^4.17.4",
+    "mongoose": "^4.11.1",
+    "mongoose-to-csv": "^0.1.1",
     "morgan": "~1.8.1",
     "pug": "~2.0.0-beta11",
     "request": "^2.81.0",

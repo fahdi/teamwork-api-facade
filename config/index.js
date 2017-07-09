@@ -57,6 +57,34 @@ var config = convict({
     default: 'redis://localhost:6379',
     env: 'REDIS'
   },
+  jobAttempts: {    
+    doc: 'The task maximum attempt count',
+    format: 'nat',
+    default: 5
+  },
+  jobBackoff: {
+
+    delay: {
+      doc: 'The task backoff delay',
+      format: 'nat',
+      default: 5 * 60 * 1000
+    },
+    type: {
+      doc: 'The task backoff type',
+      format: String,
+      default: 'fixed'
+    } 
+  },
+  jobTTLTimeout: {
+    doc: 'The max task TTL (i.e., expiry time value to live in an active state) timeout in ms',
+    format: 'nat',
+    default: 15 * 60 * 1000
+  },
+  jobTimeout: {
+    doc: 'The task timeout in ms',
+    format: 'nat',
+    default: 300000
+  },
   username: '',
   password: ''
 });

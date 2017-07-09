@@ -1,18 +1,25 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express');
+const _ = require('lodash');
+const path = require('path');
+const db = require('./db/db');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const Dispatcher = require('./dispatcher/dispatcher');
+const Queue = require('./queue/queue');
+const index = require('./routes/index');
+const timeEntries = require('./routes/time-entries');
+const projects = require('./routes/projects');
 
-var index = require('./routes/index');
-var timeEntries = require('./routes/time-entries');
-var projects = require('./routes/projects');
+const kue = require('kue');
+const kueUI = require('kue-ui');
 
-var kue = require('kue');
-var kueUI = require('kue-ui');
+const app = express();
 
-var app = express();
+const queue = new Queue();
+const dispatcher = new Dispatcher(db, queue);
+dispatcher.start();
 
 kueUI.setup({
     apiURL: '/kue-api',
@@ -41,7 +48,7 @@ app.use('/time-entries', timeEntries);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
