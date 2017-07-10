@@ -24,12 +24,12 @@ var config = convict({
     host: {
       doc: "Database host name/IP",
       format: '*',
-      default: 'server1.dev.test'
+      default: 'localhost:27017'
     },
     name: {
       doc: "Database name",
       format: String,
-      default: 'users'
+      default: 'teamworkdata'
     }
   },
   teamwork: {
@@ -44,12 +44,24 @@ var config = convict({
       default: ''
     }
   },
-  twFacade: {
-    apiPath: {
-      doc: "API URL for temwork facade API",
-      format: '*',
-      default: 'http://localhost:8080/'
-    }
+  facadeApi: {
+    url: {      
+        doc: 'API URL for temwork facade API',
+        format: '*',
+        default: 'http://localhost:8080/'
+      },
+    paths: {      
+        projects: {
+          doc: 'Projects',
+          format: String,
+          default: 'projects'
+        },
+        timeEntries: {
+          doc: 'Time entries',
+          format: String,
+          default: 'time-entries'
+        }
+      }    
   },
   redis: {
     doc: 'The redis connection string.',

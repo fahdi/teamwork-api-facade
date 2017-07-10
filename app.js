@@ -1,22 +1,27 @@
-const express = require('express');
 const _ = require('lodash');
-const path = require('path');
-const db = require('./db/db');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const config = require('./config');
+const Db = require('./db');
+const Dispatcher = require('./dispatcher');
+const express = require('express');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const Dispatcher = require('./dispatcher/dispatcher');
+const path = require('path');
 const Queue = require('./queue/queue');
-const index = require('./routes/index');
-const timeEntries = require('./routes/time-entries');
-const projects = require('./routes/projects');
 
+// Routes 
+const index = require('./routes/index');
+const projects = require('./routes/projects');
+const timeEntries = require('./routes/time-entries');
+
+// Kue Steup
 const kue = require('kue');
 const kueUI = require('kue-ui');
 
 const app = express();
 
+const db = new Db(`mongodb://${config.get('database.host')}/${config.get('database.name')}`);
 const queue = new Queue();
 const dispatcher = new Dispatcher(db, queue);
 dispatcher.start();

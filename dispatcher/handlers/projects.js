@@ -16,9 +16,9 @@ class ProjectsFetcher {
     debug('adding jobs');
 
     return this.queue.addJob({
-          name: 'projectsFetcher',
-          data: null
-        })
+        name: 'projectsFetcher',
+        data: data
+      })
       .then(jobs => {
         debug('added %d product jobs', jobs.length);
         return jobs;
@@ -26,8 +26,8 @@ class ProjectsFetcher {
   }
 
   handleResult(data, result) {
-    debug('handling results %j, %j', data, result);
-    return true;
+    debug('handling results %j, %j', data, result);    
+    return this.db.saveAllProjects(JSON.parse(result));
   }
 
   handleError(data, error) {

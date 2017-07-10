@@ -2,16 +2,34 @@
 
 const config = require('../config');
 const debug = require('debug')('teamwork-analytics:projectsFetcher:Cralwer');
+const rp = require('request-promise');
 
 class ProjectsCrawler {
+
   constructor() {
-    this.daddu = 'abc';
-  }  
+  	this.url = `${config.get('facadeApi.url')}${config.get('facadeApi.paths.projects')}`;
+  }
 
   execute(data) {
-    debug('getting the projects for %j', data);    
-	const wait = time => new Promise((resolve) => setTimeout(resolve, time));	
-	return wait(3000).then(() => console.log('Hello!')); // 'Hello!';
+    data = data || {};
+    debug('getting the projects');
+
+    var options = {
+        method: 'GET',
+        url: this.url,
+        headers: {
+            'cache-control': 'no-cache',
+            'content-type': 'application/json'            
+        }
+    };
+
+    return rp(options)        
+        .then(response => {                      
+            return response;
+        })
+        .catch(function(err) {
+            throw new Error(err);
+        });
   }
 }
 
