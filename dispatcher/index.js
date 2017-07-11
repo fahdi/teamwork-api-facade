@@ -4,11 +4,18 @@ const _ = require('lodash');
 const debug = require('debug')('teamwork-analytics:dispatcher');
 
 const JOBS = {
-  PRODUCT: {
+  PROJECTS: {
     TITLE: 'projectsFetcher',
     HANDLER: require('./handlers/projects'),
     CRAWLER: require('../crawlers/projects'),
     CONCURRENCY: 1,    
+    NEXT: 'TIMEENTRIES'
+  },
+  TIMEENTRIES: {
+    TITLE: 'timeEntriesFetcher',
+    HANDLER: require('./handlers/time-entries'),
+    CRAWLER: require('../crawlers/time-entries'),
+    CONCURRENCY: 1,
     NEXT: false
   }
 };
@@ -65,7 +72,7 @@ class Dispatcher {
   }
 
   start() {
-    const JOB = JOBS['PRODUCT'];
+    const JOB = JOBS['PROJECTS'];
     return JOB.HANDLER.addJobs()
       .then(jobs => {
         debug('added %d jobs', _.flatten(jobs).length);
@@ -80,33 +87,7 @@ class Dispatcher {
     // Disabled for now, we need to use this to see when the system is done and update
     // system status likewise.
     // return this.watchJobs(0);
-  }
-
-  watchJobs(timeout) {
-    this.timeout = setTimeout(() => {
-      return this.queue.getStatsByJobs(Object.keys(JOBS).map(key => JOBS[key].TITLE))
-        .then(stat => {
-          const pendingJobs = Object.keys(stat).filter(job =>
-            (stat[job].inactiveCount !== 0 || stat[job].activeCount !== 0 || stat[job].delayedCount !== 0)
-          );
-          if (!pendingJobs.length) {
-            return Promise.all([this.db.reset(), this.queue.flush()])
-              .then(() => this._getJOBEnum({ type: 'rankCrawler' }).HANDLER.addJobs())
-              .then(() => false);
-          } else {
-            return true;
-          }
-        })
-        .then(reset => {
-          // if database has been reset, add jobs
-          // again after one hour
-          this.watchJobs(reset ? this._getDelayInMillis(1) : null);
-          if (reset) {
-            debug('timeout set to add jobs after one hour from now!');
-          }
-        });
-    }, timeout ? timeout : 1);
-  }
+  }  
 
   _getActiveJobsCount() {
     return this.queue.getStats()

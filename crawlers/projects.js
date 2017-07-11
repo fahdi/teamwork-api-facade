@@ -1,7 +1,7 @@
 'use strict';
 
 const config = require('../config');
-const debug = require('debug')('teamwork-analytics:projectsFetcher:Cralwer');
+const debug = require('debug')('teamwork-analytics:ProjectsCrawler');
 const rp = require('request-promise');
 
 class ProjectsCrawler {

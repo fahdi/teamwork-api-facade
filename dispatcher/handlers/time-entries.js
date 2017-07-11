@@ -1,9 +1,10 @@
 'use strict';
 
 const _ = require('lodash');
-const debug = require('debug')('teamwork-analytics:projectsHandler');
+const camelKeys = require('camel-keys');
+const debug = require('debug')('teamwork-analytics:TimeEntriesHandler');
 
-class ProjectsFetcher {
+class TimeEntriesFetcher {
 
   constructor(name, db, queue) {
     this.name = name;
@@ -16,18 +17,19 @@ class ProjectsFetcher {
     debug('adding jobs');
 
     return this.queue.addJob({
-        name: 'projectsFetcher',
+        name: 'timeEntriesFetcher',
         data: data
       })
       .then(jobs => {
-        debug('added %d projectsFetcher jobs', jobs.length);
+        debug('added %d timeEntriesFetcher jobs', jobs.length);
         return jobs;
       });
   }
 
   handleResult(data, result) {
-    debug('handling results %O, %O', data, result);    
-    return this.db.saveAllProjects(JSON.parse(result));
+    debug('handling results %j', result);    
+    debug('%d',result.length);
+    return this.db.saveAllTimeEntries(camelKeys(result, true));
   }
 
   handleError(data, error) {
@@ -36,4 +38,4 @@ class ProjectsFetcher {
 
 }
 
-module.exports = ProjectsFetcher;
+module.exports = TimeEntriesFetcher;

@@ -6,154 +6,154 @@ const timeEntrySchema = mongoose.Schema({
 
   id: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   projectId: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   isbillable: {
     type: Boolean,
-    required: true,
+    required: false,
     index: true
   },
   todoListLame: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   todoItemName: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   isbilled: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   updatedDate: { // "2017-01-02T12:21:04Z"
     type: Date,
-    required: true,
+    required: false,
     index: true
   },
   todoListId: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   tags: [],
   canEdit: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   taskEstimatedTime: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   companyName: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   invoiceNo: {
     type: Number,
-    required: true,
+    required: false,
     index: true
   },
   personFirstName: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   personLastName: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   parentTaskName: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   dateUserPerspective: { // "2017-01-02T15:38:00Z",
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   minutes: {
     type: Number,
-    required: true,
+    required: false,
     index: true
   },
   description: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   ticketId: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   taskIsPrivate: { // TO-DO: check if 0 or 1 or boolean, if so change
     type: Boolean,
-    required: true,
+    required: false,
     index: true
   },
   parentTaskId: {
     type: Number,
-    required: true,
+    required: false,
     index: true
   },
   companyId: {
     type: Number,
-    required: true,
+    required: false,
     index: true
   },
   projectStatus: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   personId: {
     type: Number,
-    required: true,
+    required: false,
     index: true
   },
   projectName: {
     type: Number,
-    required: true,
+    required: false,
     index: true
   },
   taskTags: [],
   taskIsSubTask: { // TO-DO: check if 0 or 1 or boolean, if so change
     type: Boolean,
-    required: true,
+    required: false,
     index: true
   },
   todoItemId: {
     type: Number,
-    required: true,
+    required: false,
     index: true
   },
   date: { // "2017-01-02T12:21:04Z"
     type: Date,
-    required: true,
+    required: false,
     index: true
   },
   hours: {
     type: Number,
-    required: true,
+    required: false,
     index: true
   },
   hasStartTime: { // TO-DO: check if 0 or 1 or boolean, if so change
     type: Boolean,
-    required: true,
+    required: false,
     index: true
   },
   createdAt: { //"2017-01-02T12:20:24Z",

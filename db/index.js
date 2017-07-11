@@ -11,7 +11,10 @@ class Db {
 
   constructor(connectionString) {
     if (mongoose.connection.readyState === 0) {
-      mongoose.connect(connectionString);
+      mongoose.connect(connectionString, {
+        useMongoClient: true,
+        /* other options */
+      });
     }
   }  
 
@@ -20,8 +23,17 @@ class Db {
     let data = _.cloneDeep(projects);
     const now = new Date();
     data = _.map(data, o => _.extend({ updatedAt: now, createdAt: now }, o));
-    debug('Project: %s', data);
+    debug('Projects: %s', data);
     return Project.collection.insert(data);
+  }
+
+  saveAllTimeEntries(timeEntries) {    
+    TimeEntry.collection.remove(); 
+    let data = _.cloneDeep(timeEntries);
+    const now = new Date();
+    data = _.map(data, o => _.extend({ updatedAt: now, createdAt: now }, o));
+    debug('TimeEntries: %s', data);
+    return TimeEntry.collection.insert(data);
   }
 
   getProjects(query, limit) {
