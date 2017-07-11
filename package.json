@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "body-parser": "~1.17.1",
-    "convict": "^4.0.0",    
+    "camel-keys": "^1.0.1",
+    "convict": "^4.0.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "es6-promisify": "^5.0.0",

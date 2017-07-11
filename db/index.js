@@ -5,6 +5,7 @@ const debug = require('debug')('teamwork-analytics:db');
 const fs = require('fs');
 const mongoose = require('mongoose');
 const Project = require('./models/project');
+const TimeEntry = require('./models/time-entry');
 
 class Db {
 
