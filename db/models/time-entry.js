@@ -126,7 +126,7 @@ const timeEntrySchema = mongoose.Schema({
     index: true
   },
   projectName: {
-    type: Number,
+    type: String,
     required: false,
     index: true
   },
