@@ -9,6 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@google-cloud/bigquery": "^0.9.6",
     "bhttp": "^1.2.4",
     "body-parser": "~1.17.1",
     "camel-keys": "^1.0.1",
