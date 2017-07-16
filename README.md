@@ -8,6 +8,12 @@ You should have the following installed already
 2. node
 3. yarn
 4. nodemon `npm install -g nodemon`
+5. Google authentication
+	
+	If you are not running this app on Google Compute Engine, which might be the case, you need a Google Developers service account.
+	* Visit the Google Developers Console.
+	* Create a new project or click on an existing project.
+	* Activate the slide-out navigation tray and select API Manager. From here, you will enable the APIs that your application requires. Read details at [this link] (https://googlecloudplatform.github.io/google-cloud-node/#/docs/bigquery/0.9.6/guides/authentication )
 
 # Setup 
 
@@ -26,7 +32,7 @@ You should have the following installed already
 	```  
 	> Change connection settings accordingly. 
 
-* Update your config in config/development.json as follow
+* Update `config/development.json` as follow
 
 	```
 	  teamwork: {
@@ -36,19 +42,30 @@ You should have the following installed already
 	```
 	In the above example, your company would be `recurship` and the API key would be avilable in your teamwork account settings. 
 
-		You can generate an API Key from the My Profile section. 
+	You can generate an API Key from the My Profile section. 
 		
-			* Click your profile avatar from the lower left-hand pane
-			* select My Profile > select API Keys from the upper left-hand pane.
+	* Click your profile avatar from the lower left-hand pane
+	* Select My Profile > select API Keys from the upper left-hand pane.
 
-		From here, you can access a previously generated API Key or choose to Generate New API Key.
+	From here, you can access a previously generated API Key or choose to Generate New API Key.
+	
+* Get google auth JSON key. Read details at [this link] (https://googlecloudplatform.github.io/google-cloud-node/#/docs/bigquery/0.9.6/guides/authentication) and then update `config/development.json` as follows
 
+	```
+	gcp: {
+    	projectId: 'teamwork-173902',
+    	keyFilename: 'teamwork-4dfe70ab5a4a.json'   
+  	} 	
+	```
+
+	`teamwork-4dfe70ab5a4a.json` in this case, is my key file located in the `config` directory
+	
 *  Run `yarn` to install all required packages.
-*  Run `yarn dev` to run with all the debugging enabled. 
+*  Run `yarn dev` to run with all the debugging enabled.
 
-# Contact
+### Contact
 
-info@fahdmurtaza.com in case of any questions.
+info@fahdmurtaza.com for any questions.
 	
 
 

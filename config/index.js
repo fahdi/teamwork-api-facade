@@ -69,6 +69,18 @@ var config = convict({
     default: 'redis://localhost:6379',
     env: 'REDIS'
   },
+  gcp: {
+    projectId: {
+      doc: 'Project ID from Google cloud.',
+      format: String,
+      default: 'teamwork-173902'      
+    },
+    keyFilename: {
+      doc: 'Key file path. README and get it from Google',
+      format: '*',
+      default: 'teamwork-4dfe70ab5a4a.json'
+    }
+  },
   jobAttempts: {    
     doc: 'The task maximum attempt count',
     format: 'nat',
