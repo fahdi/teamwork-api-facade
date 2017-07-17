@@ -39,10 +39,10 @@ class TimeEntriesCrawler {
         return rp(options);
       }).delay(100).then(function(response) {
         if (JSON.parse(response).originalHeaders["x-pages"] > pageNumber) {
+          //if (pageNumber < 1) {
           return Promise.try(function() {
             return loop(pageNumber + 1);
           }).then(function(recursiveResults) {
-            debug('%j', recursiveResults);            
             return JSON.parse(response).body.concat(recursiveResults);
           });
         } else {
@@ -55,10 +55,12 @@ class TimeEntriesCrawler {
     return new Promise.try(function() {
         return loop(1);
       }).then(function(results) {
+        /*
         const file = '/tmp/teamwork-analytics/time-entries/all.json';
-        jsonfile.writeFile(file, results, function(err) {
+        jsonfile.writeFile(file, camelKeys(results, true), function(err) {
           console.error(err);
         });
+        */
         return results;
 
       })
