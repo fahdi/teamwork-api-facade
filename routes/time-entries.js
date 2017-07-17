@@ -67,12 +67,12 @@ router.get('/', function(req, res, next) {
   var page = req.query.page ? req.query.page : 1;
   if (project) {
     timersByProject(project, page).then(function(data) {
-      debug("Project specific route");
+      debug("Time Entries for a specific project");
       res.send(data);
     });
   } else {
     timers(page).then(function(data) {
-      debug("All projects route");
+      debug("Time Entries for all projects");
       res.send(data);
     });
   }
