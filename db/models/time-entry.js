@@ -19,7 +19,7 @@ const timeEntrySchema = mongoose.Schema({
     required: false,
     index: true
   },
-  todoListLame: {
+  todoListName: {
     type: String,
     required: false,
     index: true
@@ -141,7 +141,7 @@ const timeEntrySchema = mongoose.Schema({
     required: false,
     index: true
   },
-  date: { // "2017-01-02T12:21:04Z"
+  date: {
     type: Date,
     required: false,
     index: true
@@ -151,12 +151,12 @@ const timeEntrySchema = mongoose.Schema({
     required: false,
     index: true
   },
-  hasStartTime: { // TO-DO: check if 0 or 1 or boolean, if so change
+  hasStartTime: {
     type: Boolean,
     required: false,
     index: true
   },
-  createdAt: { //"2017-01-02T12:20:24Z",
+  createdAt: { 
     type: Date,
     default: new Date()
   },

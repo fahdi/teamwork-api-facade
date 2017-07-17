@@ -6,6 +6,7 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const Project = require('./models/project');
 const TimeEntry = require('./models/time-entry');
+const promise = require('bluebird');
 
 class Db {
 
@@ -16,10 +17,10 @@ class Db {
         /* other options */
       });
     }
-  }  
+  }
 
   saveAllProjects(projects) {
-    Project.collection.remove(); 
+    Project.collection.remove();
     let data = _.cloneDeep(projects);
     const now = new Date();
     data = _.map(data, o => _.extend({ updatedAt: now, createdAt: now }, o));
@@ -27,17 +28,28 @@ class Db {
     return Project.collection.insert(data);
   }
 
-  saveAllTimeEntries(timeEntries) {    
-    TimeEntry.collection.remove(); 
+  saveAllTimeEntries(timeEntries) {
+    TimeEntry.collection.remove();
     let data = _.cloneDeep(timeEntries);
     const now = new Date();
     data = _.map(data, o => _.extend({ updatedAt: now, createdAt: now }, o));
-    debug('TimeEntries: %s', data);
-    return TimeEntry.collection.insert(data);
+
+    return promise.promisifyAll(TimeEntry.collection.insert(data))
+      .then(data => data);
   }
 
   getProjects(query, limit) {
     return Project.find(query).limit(limit ? limit : 0).exec();
+  }
+
+  getTimeEntries(query, limit) {
+    return TimeEntry.find(query).limit(limit ? limit : 0).exec();
+  }
+
+
+  getAllTimeEntries() {
+    return TimeEntry.find({}).exec();
+    //return TimeEntry.find({id:'1829517'}).exec();
   }
 
   getProjectsCsv() {
@@ -61,9 +73,8 @@ class Db {
   }
 
   updateProjects(query, update) {
-    return Project.update(query, {$set: update}, {multi: true}).exec();
+    return Project.update(query, { $set: update }, { multi: true }).exec();
   }
-  
 
   reset() {
     return Promise.all([

@@ -24,12 +24,12 @@ const projectSchema = mongoose.Schema({
     type: String,
     required: false,
     index: true
-  }, 
+  },
   companyName: {
     type: String,
     required: false,
     index: true
-  },  
+  },
   createdAt: {
     type: Date,
     default: new Date()
@@ -37,7 +37,7 @@ const projectSchema = mongoose.Schema({
   updatedAt: {
     type: Date,
     default: new Date()
-  },  
+  },
   _errors: [{
     createdAt: {
       type: Date,
@@ -55,7 +55,7 @@ projectSchema.plugin(mongooseToCsv, {
     'Description': 'description',
     'Logo': 'logo',
     'Company': 'companyName'
-  }  
+  }
 });
 
 // on every save, add the date
