@@ -54,7 +54,7 @@ You should have the following installed already
 	```
 	gcp: {
     	projectId: 'teamwork-173902',
-    	keyFilename: 'teamwork-4dfe70ab5a4a.json'   
+    	keyFilename: './config/teamwork-4dfe70ab5a4a.json'   
   	} 	
 	```
 

@@ -78,7 +78,7 @@ var config = convict({
     keyFilename: {
       doc: 'Key file path. README and get it from Google',
       format: '*',
-      default: 'teamwork-4dfe70ab5a4a.json'
+      default: './config/teamwork-4dfe70ab5a4a.json'
     }
   },
   jobAttempts: {    
