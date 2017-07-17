@@ -26,9 +26,8 @@ class TimeEntriesFetcher {
       });
   }
 
-  handleResult(data, result) {
-    debug('handling results %j', result);    
-    debug('%d',result.length);
+  handleResult(data, result) {    
+    debug('Handling time-entries results, length = %d',result.length);
     return this.db.saveAllTimeEntries(camelKeys(result, true));
   }
 

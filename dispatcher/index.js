@@ -111,7 +111,7 @@ class Dispatcher {
     debug('job is complete %j', JOB);
     return Promise.all([this.addNextJobs(data, result, JOB.NEXT),
       JOB.HANDLER.handleResult(data, result)]).then((res) => {
-        debug('Done with this %j', res);
+        debug('Handled all results');
       });
   }
 

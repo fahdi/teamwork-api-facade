@@ -26,7 +26,7 @@ class ProjectsFetcher {
   }
 
   handleResult(data, result) {
-    debug('handling results %O, %O', data, result);    
+    debug('handling projects results');
     return this.db.saveAllProjects(JSON.parse(result));
   }
 
