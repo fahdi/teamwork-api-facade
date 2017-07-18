@@ -11,6 +11,7 @@
   "dependencies": {
     "@google-cloud/bigquery": "^0.9.6",
     "bhttp": "^1.2.4",
+    "bluebird": "^3.5.0",
     "body-parser": "~1.17.1",
     "camel-keys": "^1.0.1",
     "camelcase-keys": "^4.1.0",
@@ -25,6 +26,7 @@
     "kue-ui": "^0.1.0",
     "kue-ui-express": "^1.0.2",
     "lodash": "^4.17.4",
+    "moment": "^2.18.1",
     "mongoose": "^4.11.1",
     "mongoose-to-csv": "^0.1.1",
     "morgan": "~1.8.1",
