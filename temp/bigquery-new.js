@@ -1,31 +1,30 @@
-const config = require('./config');
-const Db = require('./db');
+const config = require('../config/index');
+const Db = require('../db/index');
 const db = new Db(`mongodb://${config.get('database.host')}/${config.get('database.name')}`);
 const debug = require('debug')('teamwork-analytics:BigQuery');
-const _ = require('lodash');
 const moment = require('moment');
 
 const insertRowsAsStream = ({ datasetId, tableId, rows }) => new Promise((resolve, reject) => {
   const BigQuery = require('@google-cloud/bigquery');
 
   // Instantiates a client
-  const bigquery = BigQuery(config.get('gcp'));
+  const bigQuery = BigQuery(config.get('gcp'));
 
-  console.log('insertRowAsStream rows = ', JSON.stringify(rows, null, 2))
+  debug('insertRowAsStream rows = ', JSON.stringify(rows, null, 2));
 
   // Inserts data into a table
-  bigquery
+  bigQuery
     .dataset(datasetId)
     .table(tableId)
     .insert(rows)
     .then((insertErrors) => {
-      console.log('Inserted:');
-      rows.forEach((row) => console.log(row));
+      debug('Inserted:');
+      rows.forEach((row) => debug(row));
 
       if (insertErrors && insertErrors.length > 0) {
-        console.log('Insert errors:');
+        debug('Insert errors:');
 
-        insertErrors.forEach((err) => console.error(err));
+        insertErrors.forEach((err) => debug(err));
         reject('ERROR: ' + JSON.stringify(insertErrors, null, 2));
       } else {
         resolve('Sucessfully Inserted')
@@ -33,7 +32,7 @@ const insertRowsAsStream = ({ datasetId, tableId, rows }) => new Promise((resolv
     })
     .catch((err) => {
 
-      console.error('ERROR:', err);
+      debug('ERROR:', err);
       reject('ERROR:' + err);
 
     });
@@ -43,11 +42,11 @@ const insertRowsAsStream = ({ datasetId, tableId, rows }) => new Promise((resolv
 const getTimeEntries = () => {
   debug('Getting time entries from the database');
   return db.getAllTimeEntries();
-}
+};
 
 getTimeEntries().then((res) => {
   //debug('Time entries from the database = %j', res);
-  data = res.map(o => {
+  let data = res.map(o => {
     return {
       date: o.date,
       project: o.projectName,
@@ -73,6 +72,6 @@ getTimeEntries().then((res) => {
     datasetId: "teamwork",
     tableId: "timeEntries",
     rows: data
-  }
+  };
   insertRowsAsStream(params);
 });

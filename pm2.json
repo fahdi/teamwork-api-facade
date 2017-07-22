@@ -1,0 +1,15 @@
+{
+  "apps": [{
+    "name": "teamwork-analytics",
+    "script": "./bin/www",
+    "env":
+    {
+        "production": true
+    },
+    "ignore_watch": [
+        "node_modules",
+        "logs"
+    ],
+    "watch": true,
+  }]
+}

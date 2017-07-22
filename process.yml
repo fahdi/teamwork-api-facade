@@ -1,0 +1,6 @@
+apps: 
+ - script: "./bin/www" 
+   name: "teamwork-analytics"
+   env: 
+    production: true   
+   watch: true   

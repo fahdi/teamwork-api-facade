@@ -1,5 +1,3 @@
-'use strict';
-
 const _ = require('lodash');
 const config = require('../config');
 const debug = require('debug')('teamwork-analytics:queue');
@@ -10,11 +8,10 @@ const promisify = require('es6-promisify');
 const redis = require('redis');
 
 class Queue extends EventEmitter {
-
   constructor() {
     super();
 
-    this.queue = kue.createQueue({redis: config.get('redis'), jobEvents: false});
+    this.queue = kue.createQueue({ redis: config.get('redis'), jobEvents: false });
     this.queue.watchStuckJobs(1000);
     this.queue
       .on('job enqueue', (id, type) => {
@@ -46,7 +43,7 @@ class Queue extends EventEmitter {
 
     return promisify(queueTask.save.bind(queueTask))()
       .then(() => queueTask)
-      .catch(err => {
+      .catch((err) => {
         debug('err saving task of type %s into the queue', job.type);
         debug(err);
       });
@@ -67,10 +64,11 @@ class Queue extends EventEmitter {
   }
 
   flush() {
+    const client = redis.createClient({
+      url: config.get('redis')
+    });
+
     return new Promise((resolve, reject) => {
-      const client = redis.createClient({
-        'url': config.get('redis')
-      });
       client.flushdb((err, success) => {
         client.end(true);
         if (err) return reject(err);
@@ -93,7 +91,6 @@ class Queue extends EventEmitter {
     return Promise.all(jobs.map(job => this.getStats(job)))
       .then(values => _.zipObject(jobs, values));
   }
-
 }
 
 module.exports = Queue;

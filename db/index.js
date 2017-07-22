@@ -1,12 +1,10 @@
-'use strict';
-
 const _ = require('lodash');
 const debug = require('debug')('teamwork-analytics:db');
 const fs = require('fs');
-const mongoose = require('mongoose');
+const Promise = require('bluebird');
+const mongoose = Promise.promisifyAll(require('mongoose'));
 const Project = require('./models/project');
 const TimeEntry = require('./models/time-entry');
-const promise = require('bluebird');
 
 class Db {
 
@@ -34,29 +32,33 @@ class Db {
     const now = new Date();
     data = _.map(data, o => _.extend({ updatedAt: now, createdAt: now }, o));
 
-    return promise.promisifyAll(TimeEntry.collection.insert(data))
-      .then(data => data);
+    return Promise.promisifyAll(TimeEntry.collection.insert(data))
+      .then(timeEntriesData => timeEntriesData);
   }
 
   getProjects(query, limit) {
-    return Project.find(query).limit(limit ? limit : 0).exec();
+    return Project.find(query).limit(limit || 0).exec();
   }
 
   getTimeEntries(query, limit) {
-    return TimeEntry.find(query).limit(limit ? limit : 0).exec();
+    return TimeEntry.find(query).limit(limit || 0).exec();
   }
 
 
   getAllTimeEntries() {
-    return TimeEntry.find({}).exec();
-    //return TimeEntry.find({id:'1829517'}).exec();
+    return Promise.promisifyAll(TimeEntry.find({}).exec())
+      .then(data => data);
   }
 
   getProjectsCsv() {
     return Project.findAndStreamCsv({});
   }
 
-  purgeProjectsCollection() {
+  purgeProjects() {
+    return Project.collection.remove();
+  }
+
+  purgeTimeEntries() {
     return Project.collection.remove();
   }
 
@@ -78,10 +80,10 @@ class Db {
 
   reset() {
     return Promise.all([
-      this.resetLinks()
+      this.purgeProjects(),
+      this.purgeTimeEntries()
     ]);
   }
-
 }
 
 module.exports = Db;

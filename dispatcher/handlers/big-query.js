@@ -1,9 +1,7 @@
-'use strict';
-
 const _ = require('lodash');
-const debug = require('debug')('teamwork-analytics:projectsHandler');
+const debug = require('debug')('teamwork-analytics:BigQueryResults');
 
-class ProjectsFetcher {
+class BigQueryResults {
 
   constructor(name, db, queue) {
     this.name = name;
@@ -12,21 +10,21 @@ class ProjectsFetcher {
   }
 
   addJobs(data) {
-    debug('adding jobs');
+    debug('adding bigQuery jobs');
 
     return this.queue.addJob({
-      name: 'projectsFetcher',
+      name: 'bigQuery',
       data: data
     })
       .then(jobs => {
-        debug('added %d projectsFetcher jobs', jobs.length);
+        debug('added %d bigQuery jobs', jobs.length);
         return jobs;
       });
   }
 
   handleResult(data, result) {
-    debug('handling projects results');
-    return this.db.saveAllProjects(JSON.parse(result));
+    debug('pushed all time entries to big query');
+    return Promise.resolve(true);
   }
 
   handleError(data, error) {
@@ -35,4 +33,4 @@ class ProjectsFetcher {
 
 }
 
-module.exports = ProjectsFetcher;
+module.exports = BigQueryResults;

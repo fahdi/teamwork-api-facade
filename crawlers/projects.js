@@ -1,20 +1,17 @@
-'use strict';
-
 const config = require('../config');
 const debug = require('debug')('teamwork-analytics:ProjectsCrawler');
 const rp = require('request-promise');
 
 class ProjectsCrawler {
-
   constructor() {
     this.url = `${config.get('facadeApi.url')}${config.get('facadeApi.paths.projects')}`;
   }
 
   execute(data) {
-    data = data || {};
     debug('getting the projects');
+    debug('getting the projects for data %j', data);
 
-    var options = {
+    const options = {
       method: 'GET',
       url: this.url,
       headers: {
@@ -24,10 +21,8 @@ class ProjectsCrawler {
     };
 
     return rp(options)
-      .then(response => {
-        return response;
-      })
-      .catch(function(err) {
+      .then(response => response)
+      .catch((err) => {
         throw new Error(err);
       });
   }

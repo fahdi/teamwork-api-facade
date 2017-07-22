@@ -1,6 +1,14 @@
 {
-  teamwork: {
-    company: "recurship",
-    apikey: "twp_j1QS6X6NcHYaFg8V7zR7LqcY6q7R"
+  "teamwork": {
+    "team": "recurship",
+    "apiKey": "twp_j1QS6X6NcHYaFg8V7zR7LqcY6q7R"
+  },
+  "database": {
+    "host": "localhost:27017",
+    "name": "teamworkdata",
+    "options": {
+      "reconnectTries": 10000,
+      "useMongoClient": false
+    }
   }
 }

@@ -1,5 +1,3 @@
-'use strict';
-
 const mongoose = require('mongoose');
 const mongooseToCsv = require('mongoose-to-csv');
 
@@ -50,11 +48,11 @@ const projectSchema = mongoose.Schema({
 projectSchema.plugin(mongooseToCsv, {
   headers: 'ID Name Description Logo Company',
   constraints: {
-    'ID': 'id',
-    'Name': 'name',
-    'Description': 'description',
-    'Logo': 'logo',
-    'Company': 'companyName'
+    ID: 'id',
+    Name: 'name',
+    Description: 'description',
+    Logo: 'logo',
+    Company: 'companyName'
   }
 });
 

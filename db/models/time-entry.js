@@ -1,5 +1,3 @@
-'use strict';
-
 const mongoose = require('mongoose');
 
 const timeEntrySchema = mongoose.Schema({
@@ -156,7 +154,7 @@ const timeEntrySchema = mongoose.Schema({
     required: false,
     index: true
   },
-  createdAt: { 
+  createdAt: {
     type: Date,
     default: new Date()
   },

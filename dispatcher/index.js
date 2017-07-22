@@ -1,5 +1,3 @@
-'use strict';
-
 const _ = require('lodash');
 const debug = require('debug')('teamwork-analytics:dispatcher');
 
@@ -8,7 +6,7 @@ const JOBS = {
     TITLE: 'projectsFetcher',
     HANDLER: require('./handlers/projects'),
     CRAWLER: require('../crawlers/projects'),
-    CONCURRENCY: 1,    
+    CONCURRENCY: 1,
     NEXT: 'TIMEENTRIES'
   },
   TIMEENTRIES: {
@@ -21,29 +19,26 @@ const JOBS = {
 };
 
 class Dispatcher {
-
-  constructor(db, queue, mailers) {
+  constructor(db, queue) {
     this.db = db;
     this.queue = queue;
 
     this.queue.on('complete', (id, result) => {
       this.queue.getJob(id)
-        .then(job => {
-          return Promise.all([
-            this.onJobComplete(this._getJOBEnum(job), job.data, result)
-            // job.remove()
-          ]);
-        });
+        .then(job => Promise.all([
+          this.onJobComplete(this._getJOBEnum(job), job.data, result)
+          // job.remove()
+        ]));
     }).on('failed', (id, err) => {
       this.queue.getJob(id)
-        .then(job => {
+        .then((job) => {
           this.onJobFailed(this._getJOBEnum(job), job.data, err);
         });
     });
 
     // register a map of jobs and it's corresponding crawler
     // to be invoked by the queue.
-    Object.keys(JOBS).forEach(key => {
+    Object.keys(JOBS).forEach((key) => {
       const JOB = JOBS[key];
       debug('processing %j', JOB);
       this.queue.process(JOB.TITLE, JOB.CONCURRENCY, new JOB.CRAWLER());
@@ -65,16 +60,16 @@ class Dispatcher {
 
   initHandlers() {
     debug('Initializing handlers');
-    Object.keys(JOBS).forEach(key => {
+    Object.keys(JOBS).forEach((key) => {
       const JOB = JOBS[key];
       JOB.HANDLER = new JOB.HANDLER(JOB.TITLE, this.db, this.queue);
     });
   }
 
   start() {
-    const JOB = JOBS['PROJECTS'];
+    const JOB = JOBS.PROJECTS;
     return JOB.HANDLER.addJobs()
-      .then(jobs => {
+      .then((jobs) => {
         debug('added %d jobs', _.flatten(jobs).length);
         // Keep inquiring the queue for the count of active jobs for each job-type.
         // If the queue has no active jobs for a job-type, re-add jobs from the database.
@@ -87,18 +82,16 @@ class Dispatcher {
     // Disabled for now, we need to use this to see when the system is done and update
     // system status likewise.
     // return this.watchJobs(0);
-  }  
+  }
 
   _getActiveJobsCount() {
     return this.queue.getStats()
-      .then(stat => {
-        return stat.activeCount + stat.delayedCount + stat.inactiveCount;
-      });
+      .then(stat => stat.activeCount + stat.delayedCount + stat.inactiveCount);
   }
 
   _getDelayInMillis(hours) {
     return hours * 60 * 60 * 1000;
-  }  
+  }
 
   addNextJobs(data, result, next) {
     if (!next) {
@@ -111,8 +104,8 @@ class Dispatcher {
     debug('job is complete %j', JOB);
     return Promise.all([this.addNextJobs(data, result, JOB.NEXT),
       JOB.HANDLER.handleResult(data, result)]).then((res) => {
-        debug('Handled all results');
-      });
+      debug('Handled all results');
+    });
   }
 
   onJobFailed(JOB, data, err) {

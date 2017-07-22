@@ -1,48 +1,45 @@
-var express = require('express');
-var router = express.Router();
-var rp = require('request-promise');
-var config = require('../config');
+const express = require('express');
 
-var projects = () => {
-  var company = config.get('teamwork.company');
-  var key = config.get('teamwork.apikey');
+const router = express.Router();
+const rp = require('request-promise');
+const config = require('../config');
 
-  var base64 = new Buffer(key + ":xxx").toString("base64");
+const projects = () => {
+  const team = config.get('teamwork.team');
+  const key = config.get('teamwork.apiKey');
 
-  var options = {
+  const base64 = new Buffer(`${key}:xxx`).toString('base64');
+
+  const options = {
     method: 'GET',
-    url: 'http://' + company + '.teamwork.com/projects.json',
+    url: `http://${team}.teamwork.com/projects.json`,
     headers: {
       'cache-control': 'no-cache',
       'content-type': 'application/json',
-      authorization: 'BASIC ' + base64
+      authorization: `BASIC ${base64}`
     }
   };
 
   return rp(options)
-    .then(response => {
-      const projects = JSON.parse(response).projects
-        .map(({ id, name, description, logo, company }) => ({
-          id: id,
-          name: name,
-          description: description,
-          logo: logo,
-          companyName: company.name
-        }));
-      return projects;
-    })
-    .catch(function(err) {
+    .then(response => JSON.parse(response).projects
+      .map(({ id, name, description, logo, company }) => ({
+        id,
+        name,
+        description,
+        logo,
+        companyName: company.name
+      })))
+    .catch((err) => {
       throw new Error(err);
     });
-}
+};
 
 /* GET projects listing. */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  projects().then(function(data) {
+  projects().then((data) => {
     res.send(data);
   });
-
 });
 
 module.exports = router;

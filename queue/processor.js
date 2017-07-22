@@ -1,7 +1,6 @@
-'use strict';
-
 const config = require('../config');
-const debug = require('debug')('pricealert:processor');
+const debug = require('debug')('teamwork-analytics:Processor');
+const domain = require('domain').create();
 
 /**
  * Task processor
@@ -25,7 +24,6 @@ class Processor {
   process(eventName, concurrency, handler) {
     debug('processing %s', eventName);
     this.kue.process(eventName, concurrency, (job, done) => {
-      const domain = require('domain').create();
       domain.on('error', (err) => {
         debug('domain error %s', err);
         done(err);
@@ -39,12 +37,12 @@ class Processor {
         }, config.get('jobTimeout'));
         handler
           .execute(job.data)
-          .then(result => {
+          .then((result) => {
             clearTimeout(timeout);
             debug('result %s', JSON.stringify(result));
             done(null, result);
           })
-          .catch(err => {
+          .catch((err) => {
             clearTimeout(timeout);
             debug('failing %s. %s', err, err.stack);
             done(err);
