@@ -1,4 +1,5 @@
 const convict = require('convict');
+const path = require('path');
 
 // Define a schema 
 const config = convict({
@@ -36,7 +37,7 @@ const config = convict({
         {
           doc: 'Times it should try to reconnect to mongo/ mongoose',
           format: Number,
-          default:  Number.MAX_VALUE
+          default: Number.MAX_VALUE
         },
       reconnectInterval: {
         doc: 'The interval in ms',
@@ -98,7 +99,7 @@ const config = convict({
     keyFilename: {
       doc: 'Key file path. README and get it from Google',
       format: '*',
-      default: './config/teamwork-4dfe70ab5a4a.json'
+      default: path.join(__dirname, '/teamwork-4dfe70ab5a4a.json')
     }
   },
   jobAttempts: {
@@ -132,9 +133,9 @@ const config = convict({
   password: ''
 });
 
-// Load environment dependent configuration 
-const env = config.get('env');
-config.loadFile(`./config/${env}.json`);
+// Load environment dependent configuration
+
+config.loadFile(path.join(__dirname, `${config.get('env')}.json`));
 
 // Perform validation 
 config.validate({ allowed: 'strict' });

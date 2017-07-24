@@ -7,11 +7,10 @@ const Project = require('./models/project');
 const TimeEntry = require('./models/time-entry');
 
 class Db {
-
   constructor(connectionString) {
     if (mongoose.connection.readyState === 0) {
       mongoose.connect(connectionString, {
-        useMongoClient: true,
+        useMongoClient: true
         /* other options */
       });
     }

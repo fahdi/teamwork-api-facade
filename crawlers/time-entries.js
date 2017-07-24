@@ -1,12 +1,7 @@
 const config = require('../config');
 const debug = require('debug')('teamwork-analytics:TimeEntriesCrawler');
 const rp = require('request-promise');
-const _ = require('lodash');
 const Promise = require('bluebird');
-const camelKeys = require('camel-keys');
-const jsonfile = require('jsonfile');
-const uuidv1 = require('uuid/v1');
-const uuidv4 = require('uuid/v4');
 
 class TimeEntriesCrawler {
   constructor() {
@@ -14,8 +9,7 @@ class TimeEntriesCrawler {
   }
 
   execute(data) {
-    data = data || {};
-    debug('getting the time entries');
+    debug('getting the time entries %j', data);
 
     const options = {
       method: 'GET',
@@ -29,7 +23,7 @@ class TimeEntriesCrawler {
       }
     };
 
-    var loop = (pageNumber) => {
+    const loop = (pageNumber) => {
       options.qs.page = pageNumber;
       debug(`URL = ${options.uri}?page=${options.qs.page}`);
       return Promise.try(() => rp(options)).delay(100).then((response) => {

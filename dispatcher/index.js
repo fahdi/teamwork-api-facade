@@ -14,6 +14,13 @@ const JOBS = {
     HANDLER: require('./handlers/time-entries'),
     CRAWLER: require('../crawlers/time-entries'),
     CONCURRENCY: 1,
+    NEXT: 'BIGQUERY'
+  },
+  BIGQUERY: {
+    TITLE: 'bigQuery',
+    HANDLER: require('./handlers/big-query'),
+    CRAWLER: require('../crawlers/big-query'),
+    CONCURRENCY: 1,
     NEXT: false
   }
 };
